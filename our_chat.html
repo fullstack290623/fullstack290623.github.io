@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat (GPT)</title>
+    <style>
+        #data-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat (GPT)</h1>
+    <input type="text" id="username" placeholder="Enter username">
+    <input type="text" id="message" placeholder="Enter message">
+    <button id="sendMessageButton">Send Message</button>
+    
+    <div id="data-container"></div>
+
+    <script>
+      function fetchData(){var e=new XMLHttpRequest;e.open("GET","https://json-db-byhc.onrender.com/chats",!0),e.onload=function(){200===e.status&&displayData(JSON.parse(e.responseText))},e.send()}function displayData(e){var t=document.getElementById("data-container");t.innerHTML="";for(var n=e.length-1;n>=0;n--){var a=e[n],s=document.createElement("div");s.textContent=`${a.time}: [${a.user}] ${a.text}`,t.appendChild(s)}}function sendMessage(){var e=document.getElementById("username"),t=document.getElementById("message"),n=e.value.trim(),a=t.value.trim();if(n){var s=new XMLHttpRequest;s.open("POST","https://json-db-byhc.onrender.com/chats",!0),s.setRequestHeader("Content-Type","application/json");var o={user:n,text:a,time:(new Date).toLocaleTimeString()};s.onload=function(){200===s.status&&(e.value="",t.value="",fetchData())},s.send(JSON.stringify(o))}else alert("You need to enter a username.")}var sendMessageButton=document.getElementById("sendMessageButton");sendMessageButton.addEventListener("click",sendMessage),setInterval(fetchData,500);
+    </script>
+</body>
+</html>
